@@ -30,7 +30,7 @@ curl -v -X PUT -T "${FILE}" \
           -H "Date: ${DATE}" \
           -H "Content-Type: application/octet-stream" \
           -H "Authorization: AWS ${MINIO_ACCESS_KEY}:${signature}" \
-          https://minio:9000/backup/${FILE}
+          http://minio:9000/backup/${FILE}
 
 
 
