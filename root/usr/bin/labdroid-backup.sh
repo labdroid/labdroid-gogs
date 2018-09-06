@@ -2,6 +2,8 @@
 
 set -x
 
+cd /opt/gogs
+
 if [ -z "$VAULT_MINIO_READ_ACCESS_TOKEN" ]; then
     echo ERROR: VAULT_MINIO_READ_ACCESS_TOKEN environment variable missing.  Create this secret in OpenShift.
     exit 1
@@ -12,13 +14,15 @@ SECRETS=`curl -H "X-Vault-Token: $VAULT_MINIO_READ_ACCESS_TOKEN" -X GET http://v
 MINIO_ACCESS_KEY=`echo $SECRETS | jq -r .data.MINIO_ACCESS_KEY`
 MINIO_SECRET_KEY=`echo $SECRETS | jq -r .data.MINIO_SECRET_KEY`
 
-USER=gogs ./gogs dump --config=/etc/gogs/conf/app.ini
+rm -f gogs-backup*.zip
 
-FILE=`ls gogs-dump*.zip`
+USER=gogs ./gogs backup --config=/etc/gogs/conf/app.ini
+
+FILE=`ls gogs-backup*.zip`
 
 content_type="application/octet-stream"
 DATE=`date -R`
-_signature="PUT\n\n${content_type}\n${date}\n${resource}"
+_signature="PUT\n\n${content_type}\n${DATE}\n/backup/${FILE}"
 signature=`echo -en ${_signature} | openssl sha1 -hmac ${MINIO_SECRET_KEY} -binary | base64`
 
 curl -v -X PUT -T "${FILE}" \
@@ -26,4 +30,7 @@ curl -v -X PUT -T "${FILE}" \
           -H "Date: ${DATE}" \
           -H "Content-Type: application/octet-stream" \
           -H "Authorization: AWS ${MINIO_ACCESS_KEY}:${signature}" \
-          https://minio:9000/backup/$FILE
+          https://minio:9000/backup/${FILE}
+
+
+
