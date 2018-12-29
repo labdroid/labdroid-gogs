@@ -19,15 +19,13 @@ ENV HOME=/var/lib/gogs
 
 COPY ./root /
 
-RUN yum -y install epel-release &&\ 
-    yum -y --setopt=tsflags=nodocs install nss_wrapper gettext && \
-    yum install epel-release -y && yum install -y --setopt=tsflags=nodocs jq && \
-    yum -y clean all && \
-    curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v${GOGS_VERSION}/linux_amd64.tar.gz && \
-    (cd /opt; tar xvf /tmp/gogs.tar.gz; rm /tmp/gogs.tar.gz) && \
-    mkdir -p /var/lib/gogs
+RUN yum -y update && yum -y install nss_wrapper gettext jq && yum -y clean all 
+RUN curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v0.11.79/linux_amd64.tar.gz && \
+    (cd /opt; tar xvf /tmp/gogs.tar.gz; rm /tmp/gogs.tar.gz)
 
-RUN /usr/bin/fix-permissions /var/lib/gogs && \
+RUN (for D in /var/log/gogs /etc/gogs /var/lib/gogs; do mkdir -p $D; done) && \
+    adduser gogs && \
+    /usr/bin/fix-permissions /var/lib/gogs && \
     /usr/bin/fix-permissions /home/gogs && \
     /usr/bin/fix-permissions /opt/gogs && \
     /usr/bin/fix-permissions /etc/gogs && \
