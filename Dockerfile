@@ -2,7 +2,7 @@ FROM centos:7
 
 MAINTAINER Anthony Green <anthony@atgreen.org>
 
-ARG GOGS_VERSION="0.11.19"
+ARG GOGS_VERSION="0.11.79"
 
 LABEL name="Gogs - Go Git Service" \
       vendor="Gogs" \
@@ -11,7 +11,7 @@ LABEL name="Gogs - Go Git Service" \
       summary="The goal of this project is to make the easiest, fastest, and most painless way of setting up a self-hosted Git service." \
       io.openshift.expose-services="3000,gogs" \
       io.openshift.tags="gogs" \
-      build-date="2018-09-01" \
+      build-date="2018-12-29" \
       version="${GOGS_VERSION}" \
       release="1"
 
