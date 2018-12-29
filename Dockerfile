@@ -19,7 +19,8 @@ ENV HOME=/var/lib/gogs
 
 COPY ./root /
 
-RUN rpm -hiv http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && yum -y update && yum -y install nss_wrapper gettext jq && yum -y clean all 
+RUN rpm -hiv http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum -y update && yum -y install git nss_wrapper gettext jq && yum -y clean all 
 RUN curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v0.11.79/linux_amd64.tar.gz && \
     (cd /opt; tar xvf /tmp/gogs.tar.gz; rm /tmp/gogs.tar.gz)
 
