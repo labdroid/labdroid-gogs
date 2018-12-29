@@ -31,7 +31,9 @@ RUN (for D in /var/log/gogs /etc/gogs /var/lib/gogs; do mkdir -p $D; done) && \
     /usr/bin/fix-permissions /etc/gogs && \
     /usr/bin/fix-permissions /var/log/gogs
 
+ENV USERNAME=gogs
+
 EXPOSE 3000
-USER 997
+USER 1000
 
 CMD ["/usr/bin/rungogs"]
