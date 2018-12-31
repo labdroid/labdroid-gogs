@@ -16,7 +16,7 @@ MINIO_SECRET_KEY=`echo $SECRETS | jq -r .data.MINIO_SECRET_KEY`
 
 rm -f gogs-backup*.zip
 
-USER=gogs ./gogs backup --config=/etc/gogs/conf/app.ini
+USER=gogs ./gogs backup
 
 FILE=`ls gogs-backup*.zip`
 
