@@ -20,7 +20,7 @@ ENV HOME=/var/lib/gogs
 COPY ./root /
 
 RUN rpm -hiv http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum -y update && yum -y install git nss_wrapper gettext jq && yum -y clean all 
+    yum -y update && yum -y install git nss_wrapper gettext jq openssl && yum -y clean all 
 RUN curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v0.11.79/linux_amd64.tar.gz && \
     (cd /opt; tar xvf /tmp/gogs.tar.gz; rm /tmp/gogs.tar.gz)
 
@@ -35,6 +35,5 @@ RUN (for D in /var/log/gogs /etc/gogs /var/lib/gogs; do mkdir -p $D; done) && \
 ENV USERNAME=gogs
 
 EXPOSE 3000
-USER 1000
 
 CMD ["/usr/bin/rungogs"]
