@@ -1,4 +1,4 @@
-FROM centos7
+FROM centos:7
 
 # There's no cmake available for ubi7 yet
 # FROM registry.access.redhat.com/ubi7
