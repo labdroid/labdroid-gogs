@@ -1,4 +1,7 @@
-FROM registry.access.redhat.com/ubi7
+FROM centos7
+
+# There's no cmake available for ubi7 yet
+# FROM registry.access.redhat.com/ubi7
 
 MAINTAINER Anthony Green <anthony@atgreen.org>
 
