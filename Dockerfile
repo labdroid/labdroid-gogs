@@ -1,8 +1,8 @@
-FROM centos:7
+FROM registry.access.redhat.com/ubi7
 
 MAINTAINER Anthony Green <anthony@atgreen.org>
 
-ARG GOGS_VERSION="0.11.79"
+ARG GOGS_VERSION="0.11.86"
 
 LABEL name="Gogs - Go Git Service" \
       vendor="Gogs" \
@@ -21,7 +21,7 @@ COPY ./root /
 
 RUN rpm -hiv http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum -y update && yum -y install git nss_wrapper gettext jq openssl && yum -y clean all 
-RUN curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v0.11.79/linux_amd64.tar.gz && \
+RUN curl -L -o /tmp/gogs.tar.gz https://github.com/gogs/gogs/releases/download/v0.11.86/linux_amd64.tar.gz && \
     (cd /opt; tar xvf /tmp/gogs.tar.gz; rm /tmp/gogs.tar.gz)
 
 RUN (for D in /var/log/gogs /etc/gogs /var/lib/gogs; do mkdir -p $D; done) && \
