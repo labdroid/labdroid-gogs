@@ -173,10 +173,10 @@ objects:
           resources: {}
           terminationMessagePath: /dev/termination-log
           volumeMounts:
-          - name: gogs-data
+          - name: labdroid-gogs-data
             mountPath: /opt/gogs/data
-          - name: gogs-config
-            mountPath: /etc/gogs/conf
+          - name: labdroid-gogs-config
+            mountPath: /opt/gogs/custom/conf
           readinessProbe:
               httpGet:
                 path: /
@@ -202,12 +202,12 @@ objects:
         securityContext: {}
         terminationGracePeriodSeconds: 30
         volumes:
-        - name: gogs-data
+        - name: labdroid-gogs-data
           persistentVolumeClaim:
-            claimName: gogs-data
-        - name: gogs-config
+            claimName: labdroid-gogs-data
+        - name: labdroid-gogs-config
           configMap:
-            name: gogs-config
+            name: labdroid-gogs-config
             items:
               - key: app.ini
                 path: app.ini
@@ -233,7 +233,7 @@ objects:
     - name: "${GOGS_VERSION}"
       from:
         kind: DockerImage
-        name: docker.io/openshiftdemos/gogs:${GOGS_VERSION}
+        name: docker.io/atgreen/labdroid-gogs:${GOGS_VERSION}
       importPolicy: {}
       annotations:
         description: The Gogs git server docker image
@@ -242,13 +242,12 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: gogs-data
+    name: labdroid-gogs-data
     labels:
       app: ${APPLICATION_NAME}
   spec:
     accessModes:
       - ReadWriteOnce
-    volumeName: "gogs-data"
     resources:
       requests:
         storage: ${GOGS_VOLUME_CAPACITY}
@@ -267,7 +266,7 @@ objects:
 - kind: ConfigMap
   apiVersion: v1
   metadata:
-    name: gogs-config
+    name: labdroid-gogs-config
     labels:
       app: ${APPLICATION_NAME}
   data:
@@ -340,7 +339,7 @@ parameters:
 - name: GOGS_VERSION
   displayName: Gogs Version
   description: 'Version of the Gogs container image to be used (check the available version https://hub.docker.com/r/openshiftdemos/gogs/tags)'
-  value: "0.9.97"
+  value: "latest"
   required: true
 - name: INSTALL_LOCK
   displayName: Installation lock
