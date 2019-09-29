@@ -5,7 +5,7 @@ FROM centos:7
 
 MAINTAINER Anthony Green <anthony@atgreen.org>
 
-ARG GOGS_VERSION="0.11.86"
+ARG GOGS_VERSION="0.11.91"
 
 LABEL name="Gogs - Go Git Service" \
       vendor="Gogs" \
